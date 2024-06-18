@@ -1,0 +1,83 @@
+{% extends 'layouts/base.html' %}
+{% load widget_tweaks %}
+{% block title %}{{pagetitle}}{% endblock %}
+{% block content %}
+<section class="user-profile section login-container my-5">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4">
+				<div class="sidebar">
+					<!-- User Widget -->
+					<div class="widget user card border-black p-2">
+                        <div class="card card-book h-100">
+                            <img class="card-img-top" src="{{book.cover.url}}" alt="{{ book.title}}" />
+                        </div>
+						<h2 class="text-center">{{ book.title }}</h2>
+						<p class="text-center fw-bold">{{ book.author.name }}</p>
+						<p class="text-center">{{ book.genre.name }}</p>
+                        <div class="d-flex justify-content-center small text-warning mb-2">
+                            <div class="bi-star{% if book.get_rating_rounded >= 1 %}-fill{% endif %}"></div>
+                            <div class="bi-star{% if book.get_rating_rounded >= 2 %}-fill{% endif %}"></div>
+                            <div class="bi-star{% if book.get_rating_rounded >= 3 %}-fill{% endif %}"></div>
+                            <div class="bi-star{% if book.get_rating_rounded >= 4 %}-fill{% endif %}"></div>
+                            <div class="bi-star{% if book.get_rating_rounded >= 5 %}-fill{% endif %}"></div>
+                        </div>
+                        <p class="text-center p-2">{{ book.description }}</p>
+                        {% if user.is_admin %}
+                        <div class="text-center">
+                            <a href="{% url 'book_manager:update_book' book.id %}" class="btn btn-dark">Editar</a>
+                            <a href="{% url 'book_manager:delete_book' book.id %}" class="btn btn-danger">Eliminar</a>
+                        </div>
+                        {% endif %}
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-8">
+                {% for review in reviews %}
+                <div class="card mb-3">
+                    <div class="card-header">
+                      {{ review.user.username}}
+                    </div>
+                    <div class="card-body">
+                      <p class="card-text">{{ review.comment }}</p>
+                      <div class="d-flex justify-content-start small text-warning mb-2">
+                        <div class="bi-star{% if review.rating >= 1 %}-fill{% endif %}"></div>
+                        <div class="bi-star{% if review.rating >= 2 %}-fill{% endif %}"></div>
+                        <div class="bi-star{% if review.rating >= 3 %}-fill{% endif %}"></div>
+                        <div class="bi-star{% if review.rating >= 4 %}-fill{% endif %}"></div>
+                        <div class="bi-star{% if review.rating >= 5 %}-fill{% endif %}"></div>
+                    </div>
+                    </div>
+                  </div>
+                {% endfor %}
+                {% if not reviews %}
+                <div class="alert alert-warning" role="alert">
+                    El libro aun no tiene reseñas
+                  </div>
+                {% endif %}
+                {% if user.is_authenticated %}
+                <div class="card mb-4">
+                    <div class="card-header">
+                      ✒️ Agregar Review
+                    </div>
+                    <form method="post">
+                    <div class="card-body">
+                        <div class="form-group mb-3">
+                            <label for="review_comment">Comentario</label>
+                            {% render_field review_form.comment class+="form-control" id="review_comment" %}
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="review_rating">Rating</label>
+                            {% render_field review_form.rating class+="form-select" id="review_rating" %}
+                        </div>
+                      {% csrf_token %}
+                      <button class="btn btn-dark">Agregar Review</button>
+                    </div>
+                    </form>
+                  </div>
+                {% endif %}
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

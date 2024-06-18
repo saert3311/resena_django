@@ -1,0 +1,82 @@
+{% extends 'layouts/base.html' %} 
+{% load widget_tweaks %} 
+{% block title%}{{pagetitle}}{% endblock %} 
+{% block content %}
+<section class="user-profile section login-container mt-5">
+  <div class="container">
+    <div class="row d-flex justify-content-center">
+      <div class="col-lg-3">
+        <div class="sidebar">
+          <!-- User Widget -->
+          <div class="widget user card border-black p-4">
+            <h2 class="text-center">Generos</h2>
+            <p class="text-center">
+              {{ num_genres }} Registro{% if num_genres > 1 %}s{% endif %}
+            </p>
+            <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addModal">
+              Agregar Genero
+			</button>
+          </div>
+          <!-- Dashboard Links -->
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <!-- Edit Profile Welcome Text -->
+        <div class="widget welcome-message">
+          <h2>Generos Registrados</h2>
+        </div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for genre in genres %}
+            <tr>
+              <td>{{ genre.name }}</td>
+              <td class="d-flex justify-content-end">
+                <a
+                  href="{% url 'book_manager:update_genre' genre.id %}"
+                  class="btn btn-dark me-2"
+                  >Editar</a
+                >
+                <a
+                  href="{% url 'book_manager:delete_genre' genre.id %}"
+                  class="btn btn-danger"
+                  >Eliminar</a
+                >
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo Genero</h1>
+		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<form method="post">
+			{% csrf_token %}
+		<div class="modal-body">
+				<div class="mb-3">
+					<label for="genre_name" class="form-label">Nombre</label>
+					{% render_field form.name class="form-control" id="genre_name" placeholder="Nombre del Genero" required="" %}
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline" data-bs-dismiss="modal">Cerrar</button>
+				<button type="submit" class="btn btn-dark">Guardar</button>
+			</div>
+		</form>
+	  </div>
+	</div>
+  </div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'layouts/base.html' %}
+{% load widget_tweaks %}
+{% block title %}{{pagetitle}}{% endblock %}
+{% block content %}
+<section class="user-profile section login-container mt-5">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="sidebar">
+					<!-- User Widget -->
+					<div class="widget user card border-black py-4">
+						<h2 class="text-center">Nuevo Libro</h2>
+						<p class="text-center">Ingresa los datos para el nuevo libro</p>
+					</div>
+					<!-- Dashboard Links -->
+				</div>
+			</div>
+			<div class="col-lg-9">
+				<div class="row">
+                    <form method="post" enctype="multipart/form-data">
+						<div class="widget personal-info">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label for="book_title">Titulo</label>
+                                            {% render_field form.title class+="form-control" id="book_title" %}
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="book_author">Autor</label>
+                                            {% render_field form.author class+="form-select" id="book_author" %}
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="book_genre">Genero</label>
+                                            {% render_field form.genre class+="form-select" id="book_genre" %}
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="book_pubyear">Año de Publicación</label>
+                                            {% render_field form.publication_year class+="form-control" id="book_pubyear" %}
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="book_cover">Caratula</label>
+                                            {% render_field form.cover class+="form-control" id="book_cover" %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="book_description">Descripción</label>
+                                            {% render_field form.description class+="form-control" id="book_description" %}
+                                        </div>
+                                    </div>
+                                </div>    
+								{% csrf_token %}
+								<!-- First Name -->
+                                <div class="form-group mt-3">
+								<button class="btn btn-dark">Guardar libro</button>
+                                </div>
+                            </form>
+						</div>
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

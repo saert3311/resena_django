@@ -1,0 +1,53 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}{{pagetitle}}{% endblock %}
+{% block content %}
+<div class="d-flex align-items-center login-container py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="card border-0 rounded-3 shadow-lg">
+                    <div class="card-body p-4 p-sm-5">
+                        <h2 class="text-center">Registro</h2>
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="f_name" class="form-label">Nombre</label>
+                                {% render_field form.f_name class="form-control" id="f_name" placeholder="Nombre" required="" %}
+                            </div>
+                            <div class="mb-3">
+                                <label for="l_name" class="form-label">Apellido</label>
+                                {% render_field form.l_name class="form-control" id="l_name" placeholder="Apellido" required="" %}
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Correo Electrónico</label>
+                                {% render_field form.email class="form-control" id="email" placeholder="Correo Electrónico" required="" %}
+                            </div>
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Nombre de usuario</label>
+                                {% render_field form.username class="form-control" id="username" placeholder="Nombre de Usuario" required="" %}
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Contrasena</label>
+                                {% render_field form.password class="form-control" id="password" placeholder="Contrasena" required="" %}
+                            </div>
+                            <div class="mb-3">
+                                <label for="password_repeat" class="form-label">Contrasena</label>
+                                {% render_field form.password_repeat class="form-control" id="password_repeat" placeholder="Contrasena" required="" %}
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-dark">Registro</button>
+                            </div>
+                            <div class="text-center mt-3">
+                                <a href="{% url 'book_manager:login' %}">¿Ya tienes cuenta?</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
